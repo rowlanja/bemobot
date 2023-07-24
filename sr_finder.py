@@ -67,7 +67,7 @@ class Supres:
     )
     sma_values = 20, 50, 100
 
-    def main(self, ticker_csv, selected_timeframe, candle_count=254):
+    def main(self, ticker_csv, selected_timeframe, perf, candle_count=254):
         print(
             f"Start main function in {time.perf_counter() - perf} seconds\n"
             f"{ticker_csv} data analysis in progress."
@@ -408,8 +408,7 @@ def get_near_sr(supres: Supres, sensitivty: float):
         if support_level > support_bound :
             print("approaching supports", key, support_level) 
 
-
-if __name__ == "__main__":
+def get_incoming_levels():
     file_name = historical_data.user_ticker.file_name
     file_name_mtf = historical_data.user_ticker_mtf.file_name
     file_name_ltf = historical_data.user_ticker_ltf.file_name
@@ -425,9 +424,9 @@ if __name__ == "__main__":
             htf_supres = Supres()
             mtf_supres = Supres()
             ltf_supres = Supres()
-            htf_supres.main(file_name, historical_data.time_frame)
-            mtf_supres.main(file_name_mtf, historical_data.med_time_frame)
-            ltf_supres.main(file_name_ltf, historical_data.low_time_frame)
+            htf_supres.main(file_name, historical_data.time_frame, perf)
+            mtf_supres.main(file_name_mtf, historical_data.med_time_frame, perf)
+            ltf_supres.main(file_name_ltf, historical_data.low_time_frame, perf)
 
             print("Data analysis is done. Browser opening.")
 
@@ -452,3 +451,6 @@ if __name__ == "__main__":
     except KeyError:
         os.remove(file_name)
         raise KeyError("Key error, algorithm issue")
+
+if __name__ == "__main__":
+    get_incoming_levels()
