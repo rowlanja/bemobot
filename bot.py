@@ -16,3 +16,14 @@ def echo_all(message):
 
 
 bot.infinity_polling()
+
+
+# gets the current leaderboard and positions 
+@bot.message_handler(commands=['whales', 'hello'])
+
+# gets my positions and portfolio status 
+
+
+# gets trending tokens
+
+# gets tokens approaching support or resistance
