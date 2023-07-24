@@ -378,7 +378,7 @@ class Supres:
             full_html=False,
             include_plotlyjs="cdn",
         )
-        with open('../templates/all_levels.html', 'a') as f:
+        with open('templates/all_levels.html', 'a') as f:
             f.write('''<button class="accordion">''' + historical_data.ticker + '''</button>''')
             f.write('''<div class="panel">''')
             f.write(self.fig.to_html(full_html=False, include_plotlyjs='cdn'))
@@ -390,6 +390,24 @@ class Supres:
             f"{self.df['date'].dt.strftime('%b-%d-%Y')[candle_count]}"
         )
 
+# // improve this by finding direction of price and then find corresponding sup/res
+def get_near_sr(supres: Supres, sensitivty: float):
+    supports = supres.support_list
+    resistances = supres.resistance_list
+    print('supports : ', supports)
+    print('resistances : ', resistances)
+    close = float(supres.df.iloc[-1].close)
+    margin = close * sensitivty
+    support_bound = close - margin
+    resistance_bound = close + margin
+    print('levels : ', close, margin, support_bound, resistance_bound)
+    for (key, resistance_level) in resistances :
+        if resistance_level < resistance_bound :
+            print("approaching resistance ", key, resistance_level) 
+    for (key, support_level) in supports :
+        if support_level > support_bound :
+            print("approaching supports", key, support_level) 
+
 
 if __name__ == "__main__":
     file_name = historical_data.user_ticker.file_name
@@ -398,7 +416,7 @@ if __name__ == "__main__":
 
     try:
         try:
-            os.remove('../templates/all_levels.html')
+            os.remove('templates/all_levels.html')
         except OSError:
             pass
         perf = time.perf_counter()
@@ -421,6 +439,9 @@ if __name__ == "__main__":
 
             os.remove(file_name_ltf)  # remove the .csv file
             print(f"{file_name_ltf} file deleted.")
+            get_near_sr(htf_supres, 0.005)
+            get_near_sr(mtf_supres, 0.005)
+            get_near_sr(ltf_supres, 0.005)
 
 
         else:
@@ -431,6 +452,3 @@ if __name__ == "__main__":
     except KeyError:
         os.remove(file_name)
         raise KeyError("Key error, algorithm issue")
-
-def get_near_sr(supres: Supres, sensitivty: float):
-    supports = supres

@@ -398,7 +398,7 @@ if __name__ == "__main__":
 
     try:
         try:
-            os.remove('templates/all_levels.html')
+            os.remove('../templates/all_levels.html')
         except OSError:
             pass
         perf = time.perf_counter()
