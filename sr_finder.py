@@ -229,7 +229,7 @@ class Supres:
             the column name to a list and adds the date of the match to another list.
             """
             t = 0
-            pattern_find = [col for col in df.columns]
+            pattern_find = [col for col in self.df.columns]
             for pattern_f in pattern_row:
                 if pattern_f == "pattern_found":
                     self.pattern_list.append(
@@ -394,19 +394,18 @@ class Supres:
 def get_near_sr(supres: Supres, sensitivty: float):
     supports = supres.support_list
     resistances = supres.resistance_list
-    print('supports : ', supports)
-    print('resistances : ', resistances)
     close = float(supres.df.iloc[-1].close)
     margin = close * sensitivty
     support_bound = close - margin
     resistance_bound = close + margin
-    print('levels : ', close, margin, support_bound, resistance_bound)
+    resistance_levels = []
     for (key, resistance_level) in resistances :
-        if resistance_level < resistance_bound :
-            print("approaching resistance ", key, resistance_level) 
+        if close > resistance_level and close < resistance_bound:
+            resistance_levels.append(resistance_level) 
+    support_levels = []
     for (key, support_level) in supports :
-        if support_level > support_bound :
-            print("approaching supports", key, support_level) 
+        if close < support_level and close > support_bound :
+            support_levels.append(support_level) 
 
 def get_incoming_levels():
     file_name = historical_data.user_ticker.file_name
@@ -438,9 +437,9 @@ def get_incoming_levels():
 
             os.remove(file_name_ltf)  # remove the .csv file
             print(f"{file_name_ltf} file deleted.")
-            get_near_sr(htf_supres, 0.005)
-            get_near_sr(mtf_supres, 0.005)
-            get_near_sr(ltf_supres, 0.005)
+            get_near_sr(htf_supres, 0.05)
+            get_near_sr(mtf_supres, 0.05)
+            get_near_sr(ltf_supres, 0.05)
 
 
         else:

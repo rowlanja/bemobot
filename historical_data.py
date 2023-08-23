@@ -77,9 +77,9 @@ print("Example input: BTCUSDT 1W, ETHBTC 3D, BNBUSDT 1H, ATOMUSDT 15M")
 ticker = "BTCUSDT"
 binance_api_runtime = time.perf_counter()
 
-time_frame, start = frameselect.frame_select("15M")
-med_time_frame, start = frameselect.frame_select("1H")
-low_time_frame, start = frameselect.frame_select("4H")
+time_frame, start = frameselect.frame_select("4H")
+med_time_frame, start = frameselect.frame_select("1D")
+low_time_frame, start = frameselect.frame_select("1W")
 
 user_ticker = BinanceTicker(ticker, time_frame)
 user_ticker_mtf = BinanceTicker(ticker, med_time_frame)

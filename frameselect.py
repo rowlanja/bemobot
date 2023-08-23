@@ -1,4 +1,4 @@
-from binance import Client
+from binance.client import Client
 from datetime import datetime, timedelta
 
 frame_select_dict = {

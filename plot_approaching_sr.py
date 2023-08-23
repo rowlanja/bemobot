@@ -229,7 +229,7 @@ class Supres:
             the column name to a list and adds the date of the match to another list.
             """
             t = 0
-            pattern_find = [col for col in df.columns]
+            pattern_find = [col for col in self.df.columns]
             for pattern_f in pattern_row:
                 if pattern_f == "pattern_found":
                     self.pattern_list.append(
